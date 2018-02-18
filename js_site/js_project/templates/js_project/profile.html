@@ -1,0 +1,84 @@
+{% extends "account/base.html" %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block content %}
+    {% load staticfiles %}
+
+    {% load thumbnail %}
+    <div class="container">
+        <div class="profile_row">
+            <div class="col-xs-6 col-md-3">
+                {% if profile_user.profile.profile_photo %}
+                    <img class="img-circle" src="{{profile_user.profile.profile_photo.url}}" width="200" height="200"> <br>
+                {% else %}
+                    <img class="img-circle" src="{% static 'js_project/images/profile_user.png' %}" width="200" height="200"> <br>
+                {% endif %}
+            </div>
+            <div class="container">
+                <div class="col-xs-6 col-md-2">
+                    {% if profile_user.profile.nickname %}
+                        <h2>{{profile_user.profile.nickname}}</h2>
+                    {% endif %}
+                    <a href="{% url 'js_project:profile_update' %}">
+                        <button type="button" class="btn btn-default">프로필 편집</button>
+                    </a>
+                    <h3>{{profile_user.username}} <br>
+                        {% if profile_user.first_name is not None %}
+                            {{profile_user.first_name}} {{profile_user.last_name}} <br>
+                        {% endif %}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-right"><a class="btn btn-primary"  href="{% url 'js_project:upload'%}">업로드</a></p>
+
+    <div class="container">
+        <div class="profile_photo_row">
+            {% if photos %}
+                {% for photo in photos %}
+                    <div class="col-sm-5 col-md-4">
+                        <span>
+                            <a href="{% url 'js_project:modify' photo.pk %}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a href="{% url 'js_project:delete' photo.pk %}" onclick="return confirm('정말 삭제하시겠습니까?')">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </span>
+                        {% thumbnail photo.image "300x300" crop="center" as im %}
+                            <a href="{% url 'js_project:content' photo.pk %}" class="thumbnail">
+                                <img src = '{{im.url}}' width="{{ im.width }}" height="{{ im.height }}" />
+                                <h4 class="text-center">{{photo.owner}}</h4>
+                            </a>
+                        {% endthumbnail %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h4>아직 사진이 없네요. 첫번째 사진을 업로드하세요!</h4>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- pagenation nav -->
+    <nav aria-label="...">
+        <ul class="pager">
+            {% if photos.has_previous %}
+                <li><a href="{%url 'js_project:profile' user.pk %}?page={{ photos.previous_page_number }}">이전</a></li>
+            {% endif %}
+
+            <li> <a href="#">페이지 {{ photos.number }} / {{ photos.paginator.num_pages }} </a></li>
+
+            {% if photos.has_next %}
+                <li>
+                    <a href="{%url 'js_project:profile' user.pk %}?page={{ photos.next_page_number }}">다음</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+{% endblock content %}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'js_project/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'js_project/bootstrap/css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'js_project/bootstrap/css/font-awesome.min.css' %}" rel="stylesheet">
+
+
+    <!-- GOOGLE FONT -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    <!-- FONTAWESOME STYLE CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <script src="{% static 'js_project/bootstrap/js/modernizr.js' %}"></script>
+
+
+
+    {% block optional_javascript %} {% endblock %}
+
+</head>
+<body>
+
+{% block header %} {% include 'account/header.html' %} {% endblock header %}
+
+<div class="container" style="margin-bottom: 100px; margin-top: 100px">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-message alert
+					{% if message.tags == 'success' %}
+						alert-success
+					{% elif message.tags == 'error' %}
+						alert-danger
+					{% endif %}
+					">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}
+    {% endblock content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="{% static 'js_project/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js_project/bootstrap/js/retina-1.1.0.js' %}"></script>
+<script src="{% static 'js_project/bootstrap/js/jquery.hoverdir.js' %}"></script>
+<script src="{% static 'js_project/bootstrap/js/jquery.hoverex.min.js' %}"></script>
+<script src="{% static 'js_project/bootstrap/js/jquery.prettyPhoto.js' %}"></script>
+<script src="{% static 'js_project/bootstrap/js/jquery.isotope.min.js' %}"></script>
+<script src="{% static 'js_project/bootstrap/js/custom.js' %}"></script>
+
+
+<script>
+    // Portfolio
+    (function($) {
+        "use strict";
+        var $container = $('.portfolio'),
+            $items = $container.find('.portfolio-item'),
+            portfolioLayout = 'fitRows';
+
+        if( $container.hasClass('portfolio-centered') ) {
+            portfolioLayout = 'masonry';
+        }
+
+        $container.isotope({
+            filter: '*',
+            animationEngine: 'best-available',
+            layoutMode: portfolioLayout,
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            },
+            masonry: {
+            }
+        }, refreshWaypoints());
+
+        function refreshWaypoints() {
+            setTimeout(function() {
+            }, 1000);
+        }
+
+        $('nav.portfolio-filter ul a').on('click', function() {
+            var selector = $(this).attr('data-filter');
+            $container.isotope({ filter: selector }, refreshWaypoints());
+            $('nav.portfolio-filter ul a').removeClass('active');
+            $(this).addClass('active');
+            return false;
+        });
+
+        function getColumnNumber() {
+            var winWidth = $(window).width(),
+                columnNumber = 1;
+
+            if (winWidth > 1200) {
+                columnNumber = 5;
+            } else if (winWidth > 950) {
+                columnNumber = 4;
+            } else if (winWidth > 600) {
+                columnNumber = 3;
+            } else if (winWidth > 400) {
+                columnNumber = 2;
+            } else if (winWidth > 250) {
+                columnNumber = 1;
+            }
+            return columnNumber;
+        }
+
+        function setColumns() {
+            var winWidth = $(window).width(),
+                columnNumber = getColumnNumber(),
+                itemWidth = Math.floor(winWidth / columnNumber);
+
+            $container.find('.portfolio-item').each(function() {
+                $(this).css( {
+                    width : itemWidth + 'px'
+                });
+            });
+        }
+
+        function setPortfolio() {
+            setColumns();
+            $container.isotope('reLayout');
+        }
+
+        $container.imagesLoaded(function () {
+            setPortfolio();
+        });
+
+        $(window).on('resize', function () {
+            setPortfolio();
+        });
+    })(jQuery);
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "account/base.html" %}
+
+{% block title %}
+Upload
+{% endblock title %}
+
+{% block content %}
+
+<h1>JS Project Upload</h1>
+
+<form action="{% url 'js_project:upload' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Upload" />
+</form>
+
+{% endblock content %}

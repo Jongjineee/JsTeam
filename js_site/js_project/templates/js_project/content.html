@@ -1,0 +1,36 @@
+{% extends "account/base.html" %}
+
+{% block title %}
+    Content
+{% endblock title %}
+
+{% block content %}
+    {% load staticfiles %}
+
+    <div class="page-header">
+        <h1>{{ photo.title }} <small>{{ photo.owner }}</small></h1>
+    </div>
+    {% if photo.image.width > 300 %}
+        <img src = '{{photo.image.url}}' width='300' />
+    {% else %}
+        <img src = '{{photo.image.url}}' />
+    {% endif %}
+
+    <h3>Comments</h3>
+
+    <ul>
+        {% for comment in photo.comment_set.all %}
+            <li>
+                {{ comment.message }}
+                <small>by {{ comment.author }}, {{ comment.created_at }}</small>
+            </li>
+        {% empty %}
+            <p>No comments here yet :(</p>
+        {% endfor %}
+    </ul>
+    <form action="{% url 'js_project:comment_new' photo.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="message" placeholder="댓글 달기...">
+    </form>
+
+{% endblock content %}
