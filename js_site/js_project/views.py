@@ -168,5 +168,3 @@ def first_video(request):
 
 def first_ppt(request):
     return render(request, 'js_project/first_ppt.html')
-
-

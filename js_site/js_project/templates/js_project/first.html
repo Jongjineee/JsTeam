@@ -6,7 +6,6 @@
 
 {% block content %}
     {% load staticfiles %}
-    {% load thumbnail %}
     <link rel="stylesheet" href="{% static 'js_project/style.css' %}" rel="stylesheet">
     <div id="blue">
         <div class="container">
@@ -19,19 +18,19 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-5 col-md-3">
-                <a href="{% url 'js_project:first_report' %}" class="thumbnail" >
+                <a href="{% url 'js_project:first_report' %}"  >
                     <img src="{% static 'js_project/images/first_1.png' %}" alt="report">
                     <h4 class="text-center">Report</h4>
                 </a>
             </div>
             <div class="col-sm-5 col-md-4">
-                <a href="{% url 'js_project:first_video' %}" class="thumbnail" >
+                <a href="{% url 'js_project:first_video' %}"  >
                     <img src="{% static 'js_project/images/video_icon.png' %}" alt="video">
                     <h4 class="text-center">Video</h4>
                 </a>
             </div>
             <div class="col-sm-5 col-md-4">
-                <a href="{% url 'js_project:first_ppt' %}" class="thumbnail" >
+                <a href="{% url 'js_project:first_ppt' %}"  >
                     <img src="{% static 'js_project/images/first_ppt1.png' %}" alt="video">
                     <h4 class="text-center">PPT</h4>
                 </a>
